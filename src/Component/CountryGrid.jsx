@@ -1,7 +1,8 @@
 import CountryCard from "./CountryCard";
 import { useContext, useEffect, useState } from "react"
 import { countryContext } from "./MainContext";
-import Pagination from "./pagination";
+import Pagination from "./Pagination";
+
 
 
 
