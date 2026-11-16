@@ -3,8 +3,9 @@ export let countryContext = createContext();
 export const MainContext = ({children}) => { 
 
     const [country,setCountry] = useState(null);
-    const [message,setMessage] = useState('')
-    let globalCountry = {country,setCountry,message,handleSearch};
+    const [message,setMessage] = useState('');
+    const [page,setPage] = useState(1)
+    let globalCountry = {country,setCountry,message,handleSearch,page,setPage};
 
  async function handleSearch(query) {
     if (!query) return;

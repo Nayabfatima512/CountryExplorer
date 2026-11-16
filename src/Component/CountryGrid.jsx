@@ -1,17 +1,20 @@
 import CountryCard from "./CountryCard";
 import { useContext, useEffect, useState } from "react"
 import { countryContext } from "./MainContext";
+import Pagination from "./pagination";
 
 
 
 export default function CountryGrid() {
-const {setCountry} = useContext(countryContext)
+const {setCountry,page} = useContext(countryContext)
  const [countries, setCountries] = useState([]);
+ const page_limit = 10;
   useEffect(() => {
   async function getCountryData() {
-    const apiUrl = "https://api.restcountries.com/countries/v5?limit=10";
+    const offset = (page-1)*page_limit;
+    const apiUrl = `https://api.restcountries.com/countries/v5?limit=${page_limit}&offset=${offset}`;
 
-    console.log("key:", import.meta.env.VITE_COUNTRIES_KEY?.slice(0, 8));
+    // console.log("key:", import.meta.env.VITE_COUNTRIES_KEY?.slice(0, 8));
 
     const res = await fetch(apiUrl, {
       headers: {
@@ -31,7 +34,7 @@ const {setCountry} = useContext(countryContext)
     setCountries(apiData);
   }
   getCountryData();
-}, []);
+}, [page]);
 
   return (
     <section className="mx-auto grid max-w-[1200px] grid-cols-1 gap-5 px-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
@@ -47,6 +50,9 @@ const {setCountry} = useContext(countryContext)
          onView={() => setCountry(c)}
         />
       ))}
+      <div className="flex items-center  justify-center w-full">
+        <Pagination hasNext={countries.length === page_limit}/>
+      </div>
     </section>
   );
 }
